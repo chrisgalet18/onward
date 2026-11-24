@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#efe2d1">
+  <meta name="description" content="Onward : votre vie, en semaines.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Onward">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="app.css">
+  <title>Onward</title>
+</head>
+<body>
+<div id="app">
+
+  <!-- Première ouverture -->
+  <section id="onboarding" class="screen on" aria-labelledby="ob-title">
+    <div class="ob-logo" aria-hidden="true">
+      <svg width="64" height="54" viewBox="0 0 120 100"><path d="M60 14 V36 M50 24 L60 14 L70 24" fill="none" stroke="#1f1b17" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 84 A42 42 0 0 1 102 84 Z" fill="#e9803a"/><line x1="8" y1="92" x2="112" y2="92" stroke="#1f1b17" stroke-width="7" stroke-linecap="round"/></svg>
+    </div>
+    <h1 id="ob-title" class="ob-title">Bienvenue sur onward<span class="dot">.</span></h1>
+    <p class="ob-sub">Votre vie, en semaines. Renseignez deux informations pour afficher votre grille. Tout reste sur cet appareil.</p>
+    <form id="obForm" class="ob-form" novalidate>
+      <label class="field"><span>Prénom</span><input id="obName" name="name" type="text" autocomplete="given-name" maxlength="40" required></label>
+      <label class="field"><span>Date de naissance</span><input id="obBirth" name="birth" type="date" required></label>
+      <p id="obErr" class="err" role="alert"></p>
+      <button class="btn-primary" type="submit">Commencer</button>
+    </form>
+  </section>
+
+  <!-- Application -->
+  <section id="main" class="screen" aria-label="Onward">
+    <header class="top">
+      <div class="brand">
+        <svg width="30" height="25" viewBox="0 0 120 100" aria-hidden="true"><path d="M60 14 V36 M50 24 L60 14 L70 24" fill="none" stroke="#1f1b17" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 84 A42 42 0 0 1 102 84 Z" fill="#e9803a"/><line x1="8" y1="92" x2="112" y2="92" stroke="#1f1b17" stroke-width="7" stroke-linecap="round"/></svg>
+        <span>onward<span class="dot">.</span></span>
+      </div>
+      <div id="avatar" class="avatar" aria-hidden="true">·</div>
+    </header>
+
+    <div class="body">
+      <!-- Vie -->
+      <div id="view-vie" class="view on">
+        <h1 class="vt">Votre ligne de vie</h1>
+        <div class="seg" role="tablist" aria-label="Niveau de détail">
+          <button type="button" data-action="level" data-level="dec" aria-selected="true">Décennie</button>
+          <button type="button" data-action="level" data-level="year" aria-selected="false">Année</button>
+          <button type="button" data-action="level" data-level="week" aria-selected="false">Semaine</button>
+        </div>
+        <nav id="crumb" class="crumb" aria-label="Chemin"></nav>
+        <div id="content" class="content"></div>
+        <div id="info" class="info" aria-live="polite"></div>
+      </div>
+
+      <!-- Analyses -->
+      <div id="view-ana" class="view">
+        <h1 class="vt">Analyses</h1>
+        <div class="kpis">
+          <div class="kpi"><b id="k-weeks">0</b><span>Semaines vécues</span></div>
+          <div class="kpi"><b id="k-moments">0</b><span>Moments notés</span></div>
+          <div class="kpi"><b id="k-dom">—</b><span>Catégorie dominante</span></div>
+        </div>
+        <div class="panel"><h3>PAR CATÉGORIE</h3><div id="crows"></div></div>
+        <p id="insight" class="insight"></p>
+        <div class="panel grow"><h3>MOMENTS RÉCENTS</h3><ul id="mlist" class="mlist"></ul></div>
+      </div>
+
+      <!-- Profil -->
+      <div id="view-pro" class="view">
+        <h1 class="vt">Profil</h1>
+        <div class="panel">
+          <div class="row"><span>Prénom</span><b id="p-name">—</b></div>
+          <div class="row"><span>Date de naissance</span><b id="p-birth">—</b></div>
+          <div class="row"><span>Semaines vécues</span><b id="p-weeks">—</b></div>
+          <div class="row"><span>Moments notés</span><b id="p-count">—</b></div>
+        </div>
+        <div class="panel">
+          <button class="btn-dark" type="button" data-action="export">Exporter mes données (JSON)</button>
+          <button class="btn-ghost" type="button" data-action="reset">Effacer mes données</button>
+          <p class="hint">Vos données sont stockées sur cet appareil. Exportez-les avant de changer de téléphone.</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="tabs" aria-label="Navigation principale">
+      <button type="button" class="tab on" data-action="tab" data-tab="vie"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Vie</button>
+      <button type="button" class="tab" data-action="tab" data-tab="ana"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="12" width="3.5" height="8" rx="1"/><rect x="10.25" y="7" width="3.5" height="13" rx="1"/><rect x="16.5" y="3.5" width="3.5" height="16.5" rx="1"/></svg>Analyses</button>
+      <button type="button" class="tab" data-action="tab" data-tab="pro"><svg viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.2"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>Profil</button>
+    </nav>
+
+    <button id="fab" class="fab" type="button" data-action="add" aria-label="Ajouter un moment">+</button>
+  </section>
+
+  <!-- Feuille d'ajout -->
+  <div id="scrim" class="scrim" data-action="cancel"></div>
+  <form id="sheet" class="sheet" aria-labelledby="sh-title" novalidate>
+    <div class="grab" aria-hidden="true"></div>
+    <h2 id="sh-title">Nouveau moment</h2>
+    <label class="field"><span>Titre</span><input id="mTitle" type="text" maxlength="80" placeholder="Ex. premier marathon" required></label>
+    <div class="field-lbl">Catégorie</div>
+    <div class="chips" id="chips">
+      <button type="button" class="chip" data-action="cat" data-cat="v"><i style="background:#3f7fa6"></i>Voyage</button>
+      <button type="button" class="chip" data-action="cat" data-cat="fa"><i style="background:#5f9e6e"></i>Famille</button>
+      <button type="button" class="chip" data-action="cat" data-cat="t"><i style="background:#7a5aa6"></i>Travail</button>
+      <button type="button" class="chip" data-action="cat" data-cat="s"><i style="background:#c94f4f"></i>Santé</button>
+      <button type="button" class="chip" data-action="cat" data-cat="e"><i style="background:#f0c94a"></i>Études</button>
+      <button type="button" class="chip" data-action="cat" data-cat="l"><i style="background:#d4608f"></i>Amitié</button>
+      <button type="button" class="chip" data-action="cat" data-cat="k"><i style="background:#2f9c9a"></i>Projet</button>
+      <button type="button" class="chip" data-action="cat" data-cat="a"><i style="background:#5b4f47"></i>Autre</button>
+    </div>
+    <label class="field"><span>Date</span><input id="mDate" type="date" required></label>
+    <p id="shErr" class="err" role="alert"></p>
+    <div class="sheet-actions">
+      <button type="button" class="btn-ghost" data-action="cancel">Annuler</button>
+      <button type="submit" class="btn-primary">Enregistrer</button>
+    </div>
+  </form>
+
+  <!-- Feuille des pièces jointes (Google Drive) -->
+  <div id="attScrim" class="scrim"></div>
+  <form id="attSheet" class="sheet" aria-labelledby="att-title" novalidate>
+    <div class="grab" aria-hidden="true"></div>
+    <h2 id="att-title">Pièces jointes</h2>
+    <p id="attFor" class="att-for"></p>
+    <div id="attBody"></div>
+    <button type="button" class="btn-ghost" data-att-close>Terminé</button>
+  </form>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</div>
+<script src="drive-config.js"></script>
+<script src="drive.js"></script>
+<script src="files.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

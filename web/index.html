@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Onward : votre vie, semaine après semaine.">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Onward · Votre vie, semaine après semaine</title>
+</head>
+<body>
+<div class="app">
+
+  <!-- Barre latérale -->
+  <aside class="side">
+    <div class="logo">
+      <svg width="58" height="48" viewBox="0 0 120 100" aria-hidden="true"><path d="M60 14 V36 M50 24 L60 14 L70 24" fill="none" stroke="#1f1b17" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 84 A42 42 0 0 1 102 84 Z" fill="#e9803a"/><line x1="8" y1="92" x2="112" y2="92" stroke="#1f1b17" stroke-width="7" stroke-linecap="round"/></svg>
+      <span>onward<span class="dot">.</span></span>
+    </div>
+
+    <nav class="nav" aria-label="Navigation principale">
+      <button class="nav-i on" data-go="top"><i class="ic ic-home"></i>Accueil</button>
+      <button class="nav-i" data-go="grid"><i class="ic ic-grid"></i>Timeline</button>
+      <button class="nav-i" data-go="analyse"><i class="ic ic-bars"></i>Analyses</button>
+      <button class="nav-i disabled" disabled><i class="ic ic-users"></i>Réseau (V2)<span class="soon">Bientôt</span></button>
+      <button class="nav-i" data-go="profil"><i class="ic ic-user"></i>Profil</button>
+    </nav>
+
+    <section class="card parcours" id="profil">
+      <h3><i class="ic ic-cal"></i>Mon parcours</h3>
+      <div class="kv"><span>Âge</span><b id="pAge">—</b></div>
+      <div class="kv"><span>Semaines vécues</span><b id="pWeeks">—</b></div>
+      <div class="kv"><span>Horizon (80 ans)</span><b id="pHorizon">—</b></div>
+      <div class="bar-track"><i id="pBar"></i></div>
+      <p class="caption" id="pPct"></p>
+    </section>
+
+    <section class="card cats" id="analyse">
+      <h3><i class="ic ic-tag"></i>Mes catégories</h3>
+      <ul id="catList" class="cat-list"></ul>
+    </section>
+
+    <div class="side-foot">
+      <button id="btnDemo" class="link">Vider les données de démonstration</button>
+    </div>
+  </aside>
+
+  <!-- Contenu principal -->
+  <main class="main">
+    <header class="top" id="top">
+      <div class="titles">
+        <h1>Votre vie, semaine après semaine.</h1>
+        <p>Cartographiez vos moments, comprenez vos rythmes et préparez ce qui reste à vivre.</p>
+      </div>
+      <div class="top-r">
+        <label class="search">
+          <i class="ic ic-search"></i>
+          <input id="search" type="search" placeholder="Rechercher un moment, un lieu, un mot-clé…" autocomplete="off">
+        </label>
+        <button id="btnAdd" class="btn-primary"><span class="plus">+</span> Ajouter un moment</button>
+        <div class="avatar" aria-hidden="true">C</div>
+      </div>
+    </header>
+
+    <div class="center">
+      <section class="card life" id="grid">
+        <div class="life-bar">
+          <div class="seg" role="tablist">
+            <button data-view="vie" class="on" aria-selected="true">Vue de vie</button>
+            <button data-view="decade" aria-selected="false">Par décennie</button>
+            <button data-view="year" aria-selected="false">Par année</button>
+          </div>
+          <div class="filters">
+            <label class="lbl">Afficher :</label>
+            <select id="filterCat" class="select" aria-label="Filtrer par catégorie"></select>
+            <button class="icon-btn" id="btnFilterIcon" aria-label="Options d'affichage" title="Options d'affichage"><i class="ic ic-sliders"></i></button>
+          </div>
+        </div>
+        <div class="life-h">
+          <h2 id="lifeTitle">Ma vie</h2>
+          <ul class="legend">
+            <li><i class="sw now"></i>Semaine actuelle</li>
+            <li><i class="sw future"></i>À venir</li>
+            <li><i class="sw empty"></i>Non renseignée</li>
+          </ul>
+        </div>
+        <div id="lifeBody" class="life-body"></div>
+      </section>
+
+      <section class="card recent">
+        <div class="recent-h">
+          <h2>Moments récents</h2>
+          <button class="link accent" id="btnAll">Tout voir <i class="ic ic-arrow"></i></button>
+        </div>
+        <div id="recentCards" class="rcards"></div>
+      </section>
+    </div>
+
+    <aside class="card detail" aria-live="polite">
+      <div class="wk-nav">
+        <button class="icon-btn" id="prevWk" aria-label="Semaine précédente"><i class="ic ic-chev-l"></i></button>
+        <div class="wk-t">
+          <h2 id="wkTitle"></h2>
+          <p id="wkRange"></p>
+        </div>
+        <button class="icon-btn" id="nextWk" aria-label="Semaine suivante"><i class="ic ic-chev-r"></i></button>
+      </div>
+      <div id="wkBody"></div>
+    </aside>
+  </main>
+</div>
+
+<!-- Fenêtre d'ajout -->
+<div id="scrim" class="scrim" hidden></div>
+<form id="modal" class="modal" hidden novalidate>
+  <h2>Nouveau moment</h2>
+  <label class="field"><span>Titre</span><input id="mTitle" type="text" maxlength="80" required></label>
+  <div class="row2">
+    <label class="field"><span>Catégorie</span><select id="mCat" class="select-f" required></select></label>
+    <label class="field"><span>Début</span><input id="mStart" type="date" required></label>
+  </div>
+  <div class="row2">
+    <label class="field"><span>Fin (facultatif)</span><input id="mEnd" type="date"></label>
+    <label class="field"><span>Lieu (facultatif)</span><input id="mPlace" type="text" maxlength="60"></label>
+  </div>
+  <label class="field"><span>Description</span><textarea id="mDesc" rows="3" maxlength="300"></textarea></label>
+  <p id="mErr" class="err" role="alert"></p>
+  <div class="modal-actions">
+    <button type="button" class="btn-ghost" id="mCancel">Annuler</button>
+    <button type="submit" class="btn-primary">Enregistrer</button>
+  </div>
+</form>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="drive-config.js"></script>
+<script src="drive.js"></script>
+<script src="files.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
