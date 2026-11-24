@@ -74,7 +74,7 @@
   /* ---------- Données ---------- */
   function seedMoments() {
     const list = [
-      { id: 'd1', demo: true, title: 'Préparation Londres', cat: 'v', start: '2026-09-07', end: '2026-09-13', place: 'Londres (prévu)', who: 'En famille', desc: 'Organisation du voyage en famille, billets, visites et planning. Excitation des enfants !', tags: ['v', 'fa', 'k'], img: 'london', featured: true, created: 3 },
+      { id: 'd1', demo: true, title: 'Séjour à Londres', cat: 'v', start: '2026-09-07', end: '2026-09-13', place: 'Londres', who: 'En famille', desc: 'Une semaine à Londres en famille : visites, musées et balades. Les enfants s’en souviennent encore.', tags: ['v', 'fa', 'k'], img: 'london', featured: true, created: 3 },
       { id: 'd2', demo: true, title: 'Séjour au lac d’Annecy', cat: 'fa', start: '2026-08-20', end: '2026-08-26', place: 'Annecy', who: 'En famille', desc: 'Une semaine au bord du lac, baignades et randonnées.', tags: ['fa', 'v'], img: 'annecy', featured: true, created: 2 },
       { id: 'd3', demo: true, title: 'Nouveau projet IT', cat: 't', start: '2026-08-03', end: '2026-08-16', place: 'Bureau', who: '', desc: 'Lancement d’un nouveau projet, cadrage et premiers ateliers.', tags: ['t', 'k'], img: 'laptop', featured: true, created: 1 },
       { id: 'd4', demo: true, title: 'Réservation des billets', cat: 'v', start: '2026-09-08', end: '2026-09-08', tags: ['v'] },
